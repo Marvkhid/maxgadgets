@@ -1,0 +1,340 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Bricolage Grotesque Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url("/fonts/bricolage-grotesque-latin-wght-normal.woff2") format("woff2-variations");
+}
+@font-face {
+  font-family: "Manrope Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 200 800;
+  src: url("/fonts/manrope-latin-wght-normal.woff2") format("woff2-variations");
+}
+
+@theme {
+  --color-brand: #e5242a;
+  --color-ink: #101010;
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Manrope Variable", ui-sans-serif, system-ui, sans-serif;
+  --animate-marquee: marquee 42s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-spin3d: spin3d 24s ease-in-out infinite;
+  --animate-pulse-ring: pulse-ring 2.4s ease-out infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  @keyframes float {
+    50% {
+      transform: translateY(-12px);
+    }
+  }
+  @keyframes spin3d {
+    0% {
+      transform: rotateX(8deg) rotateY(-26deg);
+    }
+    30% {
+      transform: rotateX(-4deg) rotateY(26deg);
+    }
+    55% {
+      transform: rotateX(6deg) rotateY(156deg);
+    }
+    80% {
+      transform: rotateX(-4deg) rotateY(206deg);
+    }
+    100% {
+      transform: rotateX(8deg) rotateY(334deg);
+    }
+  }
+  @keyframes pulse-ring {
+    0% {
+      box-shadow: 0 0 0 0 rgb(229 36 42 / 0.5);
+    }
+    100% {
+      box-shadow: 0 0 0 22px rgb(229 36 42 / 0);
+    }
+  }
+}
+
+@utility scene {
+  perspective: 1200px;
+}
+@utility preserve {
+  transform-style: preserve-3d;
+}
+@utility face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+@utility face-back {
+  transform: rotateY(180deg);
+}
+@utility flipped {
+  transform: rotateY(180deg);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #fff;
+  color: var(--color-ink);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--d, 0ms);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+.hero-word {
+  animation: rise 0.95s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+@keyframes rise {
+  from {
+    transform: translateY(105%);
+  }
+}
+.draw-line {
+  transform-origin: left;
+  animation: draw 1s 0.5s ease-out both;
+}
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+.page-in {
+  animation: page-in 0.6s ease both;
+}
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+.ankara {
+  height: 30px;
+  background: url("/images/ankara.svg") repeat-x 0 0 / auto 30px;
+}
+
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details[open] > summary .plus {
+  transform: rotate(45deg);
+}
+details[open] > .details-body {
+  animation: page-in 0.4s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-ring {
+  animation: ring 42s linear infinite;
+}
+@keyframes ring {
+  to {
+    transform: rotateY(-360deg);
+  }
+}
+.animate-rotx {
+  animation: rotx 12s ease-in-out infinite;
+}
+@keyframes rotx {
+  0%,
+  18% {
+    transform: rotateX(0deg);
+  }
+  25%,
+  43% {
+    transform: rotateX(-90deg);
+  }
+  50%,
+  68% {
+    transform: rotateX(-180deg);
+  }
+  75%,
+  93% {
+    transform: rotateX(-270deg);
+  }
+  100% {
+    transform: rotateX(-360deg);
+  }
+}
+
+.pattern-bg {
+  position: relative;
+  isolation: isolate;
+}
+.pattern-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: url("/images/ankara.svg") 0 0 / 108px 36px;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.ankara-corner {
+  position: relative;
+  overflow: hidden;
+}
+.ankara-corner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 54px;
+  height: 54px;
+  background: url("/images/ankara.svg") 0 0 / 108px 36px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  pointer-events: none;
+}
+
+.reveal-wipe {
+  clip-path: inset(0 100% 0 0 round 24px);
+  transition: clip-path 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--d, 0ms);
+}
+.reveal-wipe.in {
+  clip-path: inset(0 0 0 0 round 24px);
+}
+
+.animate-marquee-rev {
+  animation: marquee-rev 52s linear infinite;
+}
+@keyframes marquee-rev {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-drift {
+  animation: drift 9s ease-in-out infinite;
+}
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(14px, -18px, 0) rotate(14deg);
+  }
+}
+
+.grow-bar {
+  width: 0;
+  transition: width 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) 0.3s;
+}
+.reveal.in .grow-bar {
+  width: var(--w);
+}
+
+.shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgb(255 255 255 / 0.4) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 0.7s ease;
+  pointer-events: none;
+}
+.shine:hover::after {
+  transform: translateX(120%);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-wipe {
+    clip-path: none;
+  }
+  .grow-bar {
+    width: var(--w) !important;
+  }
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-brand);
+  outline-offset: 3px;
+}
+.bg-ink :focus-visible,
+.bg-brand :focus-visible {
+  outline-color: #fff;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #eeeeee 25%, #f7f7f7 50%, #eeeeee 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.legacy-notice {
+  display: none;
+  background: #101010;
+  color: #fff;
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 14px;
+}
+@supports not (color: color-mix(in srgb, red, blue)) {
+  .legacy-notice {
+    display: block;
+  }
+}
+
+/* Small brand-red text needs a darker red on light backgrounds and a lighter red on dark ones (WCAG AA). */
+.text-brand.text-xs {
+  color: #c81d22;
+}
+.bg-ink .text-brand.text-xs,
+.bg-ink.text-brand.text-xs {
+  color: #ff7276;
+}
+
+/* Photos show a brief shimmer while they load, then it stops. */
+.skeleton-once {
+  background-image: linear-gradient(90deg, #eeeeee 25%, #f7f7f7 50%, #eeeeee 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear 3;
+}
